@@ -163,7 +163,11 @@ public:
     // unary operators
     inline CG<Base> operator+() const;
     inline CG<Base> operator-() const;
-protected:
+
+    // creating an argument out of this node
+    inline Argument<Base> argument() const;
+
+   protected:
     /**
      * Creates a variable/parameter from an existing argument
      *
@@ -179,9 +183,6 @@ protected:
 
     inline void makeVariable(OperationNode<Base>& operation,
                              std::unique_ptr<Base>& value);
-
-    // creating an argument out of this node
-    inline Argument<Base> argument() const;
 
     /***************************************************************************
      *                               friends
