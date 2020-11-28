@@ -121,8 +121,9 @@ const std::map<std::string, std::string>& ModelLibraryCSourceGen<Base>::getLibra
 
             if (usingMultiThreading) {
                 if (_multiThreading == MultiThreadingType::PTHREADS) {
-                    _libSources["thread_pool.c"] = CPPADCG_PTHREAD_POOL_C_FILE;
-
+                    throw std::runtime_error(
+                        "CPPADCG_PTHREAD_POOL_C_FILE is not available at the moment.");
+                    // _libSources["thread_pool.c"] = CPPADCG_PTHREAD_POOL_C_FILE;
                 } else if (_multiThreading == MultiThreadingType::OPENMP) {
                     _libSources["thread_pool.c"] = CPPADCG_OPENMP_C_FILE;
                 }
