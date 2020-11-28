@@ -179,7 +179,10 @@ void ModelLibraryCSourceGen<Base>::generateOnCloseSource(std::map<std::string, s
 
     _cache.str("");
     if (pthreads) {
-        _cache << CPPADCG_PTHREAD_POOL_H_FILE << "\n\n";
+        throw std::runtime_error(
+                        "CPPADCG_PTHREAD_POOL_C_FILE is not available at the "
+                        "moment.");
+        // _cache << CPPADCG_PTHREAD_POOL_H_FILE << "\n\n";
     }
     _cache << "void " << FUNCTION_ONCLOSE << "() {\n";
     if (pthreads) {
@@ -205,7 +208,10 @@ void ModelLibraryCSourceGen<Base>::generateThreadPoolSources(std::map<std::strin
 
     if (usingMultiThreading && _multiThreading == MultiThreadingType::PTHREADS) {
         _cache.str("");
-        _cache << CPPADCG_PTHREAD_POOL_H_FILE << "\n\n";
+        throw std::runtime_error(
+                        "CPPADCG_PTHREAD_POOL_C_FILE is not available at the "
+                        "moment.");
+        // _cache << CPPADCG_PTHREAD_POOL_H_FILE << "\n\n";
 
         _cache << "void " << FUNCTION_SETTHREADPOOLDISABLED << "(int disabled) {\n";
         _cache << "   cppadcg_thpool_set_disabled(disabled);\n";
