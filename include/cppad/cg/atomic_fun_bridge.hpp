@@ -16,6 +16,8 @@
  * Author: Joao Leal
  */
 
+#include "extra/sparsity.hpp"
+
 namespace CppAD {
 namespace cg {
 
@@ -112,7 +114,7 @@ public:
             size_t n = fun_.Domain();
             size_t m = fun_.Range();
             if (!custom_jac_.isFullDefined()) {
-                custom_jac_.setFullElements(jacobianForwardSparsitySet<std::vector<std::set<size_t> > >(fun_));
+                custom_jac_.setFullElements(CppAD::cg::jacobianForwardSparsitySet<std::vector<std::set<size_t> >, CGB>(fun_));
                 fun_.size_forward_set(0);
             }
 
@@ -144,7 +146,7 @@ public:
             size_t n = fun_.Domain();
             size_t m = fun_.Range();
             if (!custom_jac_.isFullDefined()) {
-                custom_jac_.setFullElements(jacobianReverseSparsitySet<std::vector<std::set<size_t> > >(fun_));
+                custom_jac_.setFullElements(CppAD::cg::jacobianReverseSparsitySet<std::vector<std::set<size_t> >, CGB>(fun_));
             }
 
             for (size_t i = 0; i < st.size(); i++) {
@@ -187,7 +189,7 @@ public:
             }
 
             if (!custom_jac_.isFullDefined()) {
-                custom_jac_.setFullElements(jacobianSparsitySet<std::vector<std::set<size_t> > >(fun_));
+                custom_jac_.setFullElements(CppAD::cg::jacobianSparsitySet<std::vector<std::set<size_t> >, CGB>(fun_));
             }
             const std::vector<std::set<size_t> >& jacSparsity = custom_jac_.getFullElements();
 
@@ -208,20 +210,20 @@ public:
 
             if (allSelected) {
                 if (!custom_hess_.isFullDefined()) {
-                    custom_hess_.setFullElements(hessianSparsitySet<std::vector<std::set<size_t> > >(fun_)); // f''(x)
+                    custom_hess_.setFullElements(CppAD::cg::hessianSparsitySet<std::vector<std::set<size_t> >, CGB>(fun_)); // f''(x)
                 }
                 const std::vector<std::set<size_t> >& sF2 = custom_hess_.getFullElements();
                 CppAD::cg::multMatrixTransMatrixSparsity(sF2, r, v, n, n, q); // f''^T * R
             } else {
-                vector<std::set<size_t> > sparsitySF2R(n);
+                CppAD::vector<std::set<size_t> > sparsitySF2R(n);
                 for (size_t i = 0; i < m; i++) {
                     if (s[i]) {
                         const auto itH = hess_.find(i);
-                        const vector<std::set<size_t> >* spari;
+                        const CppAD::vector<std::set<size_t> >* spari;
                         if (itH == hess_.end()) {
-                            vector<std::set<size_t> >& hi = hess_[i] = hessianSparsitySet<vector<std::set<size_t> > >(fun_, i); // f''_i(x)
-                            spari = &hi;
-                            custom_hess_.filter(hi);
+                            hess_[i] = CppAD::cg::hessianSparsitySet<CppAD::vector<std::set<size_t> >, CGB>(fun_, i); // f''_i(x)
+                            spari = &hess_[i];
+                            custom_hess_.filter(hess_[i]);
                         } else {
                             spari = &itH->second;
                         }
