@@ -90,6 +90,7 @@ static_assert(false,
 // system dependent files
 #include <cppad/cg/model/system/system.hpp>
 #include <cppad/cg/model/system/linux_system.hpp>
+#include <cppad/cg/model/system/windows_system.hpp>
 
 // ---------------------------------------------------------------------------
 // some utilities

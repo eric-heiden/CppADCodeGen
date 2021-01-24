@@ -16,6 +16,10 @@
  * Author: Joao Leal
  */
 
+#ifdef CONST
+#   undef CONST
+#endif
+
 namespace CppAD {
 namespace cg {
 

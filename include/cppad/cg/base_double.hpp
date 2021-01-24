@@ -15,6 +15,11 @@
  * Author: Joao Leal
  */
 
+#include <limits>
+
+#undef min
+#undef max
+
 namespace CppAD {
 
 /**

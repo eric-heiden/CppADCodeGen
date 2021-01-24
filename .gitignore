@@ -50,6 +50,8 @@ junk.sh
 /.idea/
 /.kdev4/
 *.kdev4
+.history/
+.vscode/
 
 # file browser
 .directory

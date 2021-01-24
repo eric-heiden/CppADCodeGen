@@ -126,7 +126,15 @@ IF(CMAKE_VERSION VERSION_GREATER "3.1.0")
     SET(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 ENDIF()
 
-IF(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+IF(CMAKE_VERSION VERSION_GREATER "3.1.0")
+    # do nothing
+ELSE()
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+ENDIF()
+# NDEBUG required in order to make CppAD significantly faster
+SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
+
+IF(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     SET(warning_flags "-Wall") # enable as many warnings as possible
     #SET(warning_flags "${warning_flags} -Wextra")
     #SET(warning_flags "${warning_flags} -Wshadow") # definition shadows another
@@ -135,17 +143,8 @@ IF(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 
     SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${warning_flags}")
 
-    IF(CMAKE_VERSION VERSION_GREATER "3.1.0")
-        # do nothing
-    ELSE()
-        SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-    ENDIF()
-
-
     SET(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g -ggdb")
-
-    # NDEBUG required in order to make CppAD significantly faster
-    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2 -DNDEBUG")
+    SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
 
     SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O2 -g -ggdb -DNDEBUG -D_FORTIFY_SOURCE=2")
 ENDIF()
@@ -169,7 +168,7 @@ ENDIF()
 # Currently building tests as normal executables
 # ----------------------------------------------------------------------------
 ADD_SUBDIRECTORY(include)
-ADD_SUBDIRECTORY(example EXCLUDE_FROM_ALL)
+ADD_SUBDIRECTORY(example)
 #ADD_SUBDIRECTORY(introduction EXCLUDE_FROM_ALL)
 ADD_SUBDIRECTORY(speed EXCLUDE_FROM_ALL)
 ADD_SUBDIRECTORY(python)
