@@ -53,8 +53,11 @@ inline std::string getWorkingDirectory() {
 }
 
 inline void createFolder(const std::string &folder) {
-  if (!CreateDirectory(folder.c_str(), NULL)) {
-    throw CGException("Failed to create directory: ", GetLastError());
+  if (!CreateDirectory(folder.c_str(), NULL) &&
+      GetLastError() == ERROR_PATH_NOT_FOUND) {
+    throw CGException(
+        "Failed to create directory \"", folder,
+        "\" because one or more intermediate directories do not exist.");
   }
 }
 
