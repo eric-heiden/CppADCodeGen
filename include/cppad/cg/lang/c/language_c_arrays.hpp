@@ -34,7 +34,7 @@ void LanguageC<Base>::pushArrayCreationOp(OperationNode <Base>& array) {
 
         if (newValue) {
             if (firstElement) {
-                _streamStack << _indentation << auxArrayName_ << " = " << _nameGen->generateTemporaryArray(array, getVariableID(array)) << "; // size: " << args.size() << "\n";
+                _streamStack << _indentation << _auxArrayName << " = " << _nameGen->generateTemporaryArray(array, getVariableID(array)) << "; // size: " << args.size() << "\n";
                 firstElement = false;
             }
 
@@ -43,7 +43,7 @@ void LanguageC<Base>::pushArrayCreationOp(OperationNode <Base>& array) {
 
             if (newI == i) {
                 // individual element assignment
-                _streamStack << _indentation << auxArrayName_ << "[" << i << "] = ";
+                _streamStack << _indentation << _auxArrayName << "[" << i << "] = ";
                 push(args[i]);
                 _streamStack << ";\n";
 
@@ -78,7 +78,7 @@ void LanguageC<Base>::pushSparseArrayCreationOp(OperationNode <Base>& array) {
 
         if (newValue) {
             if (firstElement) {
-                _streamStack << _indentation << auxArrayName_ << " = " << _nameGen->generateTemporarySparseArray(array, getVariableID(array))
+                _streamStack << _indentation << _auxArrayName << " = " << _nameGen->generateTemporarySparseArray(array, getVariableID(array))
                         << "; // nnz: " << args.size() << "  size:" << info[0] << "\n";
                 firstElement = false;
             }
@@ -88,7 +88,7 @@ void LanguageC<Base>::pushSparseArrayCreationOp(OperationNode <Base>& array) {
 
             if (newI == i) {
                 // individual element assignment
-                _streamStack << _indentation << auxArrayName_ << "[" << i << "] = ";
+                _streamStack << _indentation << _auxArrayName << "[" << i << "] = ";
                 push(args[i]);
                 _streamStack << "; ";
                 // print indexes (location of values)
@@ -285,7 +285,7 @@ inline size_t LanguageC<Base>::printArrayCreationUsingLoop(size_t startPos,
      * print the loop
      */
     _streamStack << _indentation << "for(i = " << starti << "; i < " << i << "; i++) "
-                 << auxArrayName_ << "[i] = " << arrayAssign.str() << ";\n";
+                 << _auxArrayName << "[i] = " << arrayAssign.str() << ";\n";
 
     /**
      * update values in the global temporary array
