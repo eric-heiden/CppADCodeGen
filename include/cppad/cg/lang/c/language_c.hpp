@@ -110,11 +110,13 @@ protected:
     std::vector<const LoopStartOperationNode<Base>*> _currentLoops;
     // the maximum precision used to print values
     size_t _parameterPrecision;
+
+    std::string _auxArrayName;
+    
 private:
     std::vector<std::string> funcArgDcl_;
     std::vector<std::string> localFuncArgDcl_;
     std::string localFuncArgs_;
-    std::string auxArrayName_;
 
 public:
 
@@ -368,7 +370,7 @@ public:
 
         //
         if (!isWrapperFunction && (arraySize > 0 || sArraySize > 0)) {
-            _ss << _spaces << _baseTypeName << "* " << auxArrayName_ << ";\n";
+            _ss << _spaces << _baseTypeName << "* " << _auxArrayName << ";\n";
         }
 
         if ((isWrapperFunction && zeroArrayDependents) ||
@@ -674,7 +676,7 @@ protected:
         funcArgDcl_.clear();
         localFuncArgDcl_.clear();
         localFuncArgs_ = "";
-        auxArrayName_ = "";
+        _auxArrayName = "";
         _currentLoops.clear();
         _atomicFuncArrays.clear();
         _streamStack.clear();
@@ -753,7 +755,7 @@ protected:
                     + _C_SPARSE_INDEX_ARRAY;
         }
 
-        auxArrayName_ = tmpArg[1].name + "p";
+        _auxArrayName = tmpArg[1].name + "p";
 
         /**
          * Determine the dependent variables that result from the same operations
@@ -1062,7 +1064,7 @@ protected:
         size_t arraySize = _nameGen->getMaxTemporaryArrayVariableID();
         size_t sArraySize = _nameGen->getMaxTemporarySparseArrayVariableID();
         if (arraySize > 0 || sArraySize > 0) {
-            _ss << _spaces << _baseTypeName << "* " << auxArrayName_ << ";\n";
+            _ss << _spaces << _baseTypeName << "* " << _auxArrayName << ";\n";
         }
 
         generateArrayContainersDeclaration(_ss,
@@ -1779,7 +1781,7 @@ protected:
 
     inline void markArrayChanged(Node& ty);
 
-    inline size_t printArrayCreationUsingLoop(size_t startPos,
+    virtual inline size_t printArrayCreationUsingLoop(size_t startPos,
                                               Node& array,
                                               size_t startj,
                                               std::vector<const Arg*>& tmpArrayValues);
