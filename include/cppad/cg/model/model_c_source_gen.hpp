@@ -659,6 +659,10 @@ public:
         _sparseJacobianReusesOne = reuse;
     }
 
+    inline const LocalSparsityInfo& getJacobianSparsity() const {
+        return _jacSparsity;
+    }
+
     /**
      * Determines whether or not to generate source-code for a function
      * that evaluates the original model.
@@ -929,8 +933,12 @@ protected:
     const std::map<std::string, std::string>& getSources(MultiThreadingType multiThreadingType,
                                                          JobTimer* timer);
 
+public:
+
     virtual void generateSources(MultiThreadingType multiThreadingType,
                                  JobTimer* timer = nullptr);
+
+protected:
 
     virtual void generateLoops();
 
