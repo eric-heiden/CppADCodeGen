@@ -720,10 +720,11 @@ void ModelCSourceGen<Base>::printFunctionEndPThreads(std::ostringstream& cache,
 
 template<class Base>
 void ModelCSourceGen<Base>::printFileStartOpenMP(std::ostringstream& cache) {
-    cache << CPPADCG_OPENMP_H_FILE << "\n"
-            "#include <omp.h>\n"
-            "#include <stdio.h>\n"
-            "#include <time.h>\n";
+    assert(false);
+    // cache << CPPADCG_OPENMP_H_FILE << "\n"
+    //         "#include <omp.h>\n"
+    //         "#include <stdio.h>\n"
+    //         "#include <time.h>\n";
 }
 
 template<class Base>

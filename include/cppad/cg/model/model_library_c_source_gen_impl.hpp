@@ -125,7 +125,9 @@ const std::map<std::string, std::string>& ModelLibraryCSourceGen<Base>::getLibra
                         "CPPADCG_PTHREAD_POOL_C_FILE is not available at the moment.");
                     // _libSources["thread_pool.c"] = CPPADCG_PTHREAD_POOL_C_FILE;
                 } else if (_multiThreading == MultiThreadingType::OPENMP) {
-                    _libSources["thread_pool.c"] = CPPADCG_OPENMP_C_FILE;
+                    throw std::runtime_error(
+                        "CPPADCG_OPENMP_C_FILE is not available at the moment.");
+                    // _libSources["thread_pool.c"] = CPPADCG_OPENMP_C_FILE;
                 }
             }
         }
@@ -267,7 +269,8 @@ void ModelLibraryCSourceGen<Base>::generateThreadPoolSources(std::map<std::strin
     } else if(usingMultiThreading && _multiThreading == MultiThreadingType::OPENMP) {
         _cache.str("");
         _cache << "#include <omp.h>\n";
-        _cache << CPPADCG_OPENMP_H_FILE << "\n\n";
+        // _cache << CPPADCG_OPENMP_H_FILE << "\n\n";
+        assert(false);
 
         _cache << "void " << FUNCTION_SETTHREADPOOLDISABLED << "(int disabled) {\n";
         _cache << "   cppadcg_openmp_set_disabled(disabled);\n";
