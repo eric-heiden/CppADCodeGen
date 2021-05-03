@@ -276,6 +276,10 @@ public:
         _maxOperationsPerAssignment = maxOperationsPerAssignment;
     }
 
+    std::unique_ptr<LanguageGenerationData<Base>>& getInfo() const {
+        return _info;
+    }
+
     inline std::string generateTemporaryVariableDeclaration(bool isWrapperFunction,
                                                             bool zeroArrayDependents,
                                                             const std::vector<int>& atomicMaxForward,
