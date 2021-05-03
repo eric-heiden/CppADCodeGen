@@ -686,8 +686,10 @@ protected:
     inline static bool containsArgument(const Node& node,
                                         const Node& arg);
 
+public:
     virtual void registerAtomicFunction(CGAbstractAtomicFun<Base>& atomic);
 
+protected:
     /***********************************************************************
      *
      **********************************************************************/
@@ -885,6 +887,16 @@ protected:
 
         void addLoopEndNode(Node& node);
     };
+
+public:
+    const LoopData& getLoopData() const {
+        return _loops;
+    } 
+    LoopData& getLoopData() {
+        return _loops;
+    }
+
+protected:
 
     /**************************************************************************
      *                                friends
